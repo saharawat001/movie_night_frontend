@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #fff0f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* ===== PAGES ===== */
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 460px;
+            text-align: center;
+            animation: popIn 0.4s ease;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        /* ===== COMMON ===== */
+        .top-deco {
+            font-size: 32px;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 36px;
+            color: #e8619d;
+            margin-bottom: 6px;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: #f4a9c8;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: white;
+            border: 2px solid #ffd6e8;
+            border-radius: 20px;
+            padding: 28px 24px;
+            margin-bottom: 20px;
+        }
+
+        .card p {
+            color: #c2607d;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .card p:last-child { margin-bottom: 0; }
+
+        /* ===== DATE BUTTONS ===== */
+        .dates {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .date-btn {
+            background: #fff0f5;
+            border: 2px solid #ffadd4;
+            border-radius: 12px;
+            padding: 14px 20px;
+            color: #e8619d;
+            font-family: 'Nunito', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .date-btn:hover {
+            background: #ffadd4;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ===== PAGE 2 ===== */
+        .movie-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 34px;
+            color: #e8619d;
+            margin-bottom: 4px;
+        }
+
+        .movie-sub {
+            font-size: 12px;
+            color: #f4a9c8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .selected-date {
+            font-family: 'Pacifico', cursive;
+            font-size: 17px;
+            color: #e8619d;
+            margin-bottom: 14px !important;
+        }
+
+        .btns {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            position: relative;
+            min-height: 56px;
+            align-items: center;
+        }
+
+        .yes-btn {
+            background: #e8619d;
+            border: none;
+            border-radius: 12px;
+            padding: 13px 36px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .yes-btn:hover {
+            background: #d44d88;
+            transform: scale(1.06);
+        }
+
+        .no-btn {
+            background: white;
+            border: 2px solid #ffc2d4;
+            border-radius: 12px;
+            padding: 13px 36px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: #f4a9c8;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        /* ===== GUILT PAGE ===== */
+        .guilt-emoji {
+            font-size: 56px;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 1s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to   { transform: translateY(-8px); }
+        }
+
+        .guilt-title {
+            font-family: 'Pacifico', cursive;
+            font-size: 30px;
+            color: #e8619d;
+            margin-bottom: 20px;
+        }
+
+        .guilt-text {
+            color: #c2607d;
+            font-size: 15px;
+            line-height: 1.9;
+            margin-bottom: 8px;
+        }
+
+        .guilt-highlight {
+            color: #e8619d;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .popcorn-row {
+            font-size: 22px;
+            letter-spacing: 4px;
+            margin: 14px 0;
+        }
+
+        .guilt-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .yes-big-btn {
+            background: #e8619d;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .yes-big-btn:hover {
+            background: #d44d88;
+            transform: scale(1.03);
+        }
+
+        .still-no-btn {
+            background: white;
+            border: 2px solid #ffd6e8;
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #f4a9c8;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .still-no-btn:hover { background: #fff0f5; }
+
+        /* ===== FINAL PAGE ===== */
+        .final-card {
+            background: white;
+            border: 2px solid #ffd6e8;
+            border-radius: 20px;
+            padding: 32px 24px;
+        }
+
+        .final-card h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: 34px;
+            color: #e8619d;
+            margin-bottom: 10px;
+        }
+
+        .final-card p {
+            color: #c2607d;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .confirm-date {
+            font-family: 'Pacifico', cursive;
+            font-size: 18px;
+            color: #f4a9c8;
+            margin: 8px 0 16px !important;
+        }
+
+        .divider {
+            font-size: 20px;
+            letter-spacing: 6px;
+            margin: 14px 0;
+            color: #ffadd4;
+        }
+
+        .footer-note {
+            font-size: 13px !important;
+            color: #f4a9c8 !important;
+            margin-top: 14px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== PAGE 1 — PICK A DATE ===== -->
+    <div class="page active" id="page1">
+        <div class="top-deco">🌸 🎀 🌸</div>
+        <h1>Hey </h1>
+        <p class="tagline">a little something for you</p>
+        <div class="card">
+            <p>Are you free on any of these dates? I have planned something  🥺</p>
+            <div class="dates">
+                <button class="date-btn" onclick="pickDate('Saturday, 1 August')">
+                    <span>🌷 saturday, 1 August</span><span>→</span>
+                </button>
+                <button class="date-btn" onclick="pickDate('Sunday, 2 August')">
+                    <span>🌷 Sunday, 2 August</span><span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 2 — YES OR NO ===== -->
+    <div class="page" id="page2">
+        <div class="top-deco">🍿 🎬 🍿</div>
+        <div class="movie-title">Spider-Man</div>
+        <div class="movie-sub">the new movie</div>
+        <div class="card">
+            <p id="dateDisplay" class="selected-date"></p>
+            <p>Would you like to go watch the new Spider-Man movie together? 🥹</p>
+            <p style="font-size: 13px; color: #f4a9c8; margin-top: -8px;">
+                (the "no" button is too shy to stay still 🙈)
+            </p>
+            <div class="btns">
+                <button class="yes-btn" onclick="sayYes()">Yes, yay! 🎉</button>
+                <button
+                    class="no-btn"
+                    id="noBtn"
+                    onmouseover="runAway()"
+                    onmousemove="runAway()"
+                    onclick="oopsNo()"
+                    ontouchstart="runAway()"
+                    ontouchmove="runAway()"
+                >
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 3 — GUILT TRIP ===== -->
+    <div class="page" id="page3">
+        <div class="top-deco">🌸 🥺 🌸</div>
+        <div class="card">
+            <span class="guilt-emoji">🥺</span>
+            <p class="guilt-title">Wait...</p>
+            <p class="guilt-text">Are you <span class="guilt-highlight">really</span> sure?</p>
+            <p class="guilt-text">Maybe you just missed the <span class="guilt-highlight">"Yes"</span> button.</p>
+            <div class="popcorn-row">🍿 🍿 🍿</div>
+            <p class="guilt-text">The popcorn is already waiting.</p>
+            <p style="font-size: 13px; color: #f4a9c8; margin-top: 4px;">
+                and honestly... so am I 🥲
+            </p>
+            <div class="guilt-btns">
+                <button class="yes-big-btn" onclick="sayYes()">
+                    Okay okay, YES! 💕
+                </button>
+                <button class="still-no-btn" onclick="reallyNo()">
+                    I actually meant no...
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 4 — REALLY NO ===== -->
+    <div class="page" id="page4">
+        <div class="top-deco">😔 🎀 😔</div>
+        <div class="card">
+            <span style="font-size: 56px; display: block; margin-bottom: 16px;">😔</span>
+            <p class="guilt-title" style="font-size: 26px;">Oh... okay.</p>
+            <p class="guilt-text">That's totally fine.</p>
+            <p class="guilt-text">I'll just be here...</p>
+            <p class="guilt-text">alone...</p>
+            <p class="guilt-text">with all this popcorn...</p>
+            <div class="popcorn-row">🍿 🍿 🍿</div>
+            <p style="font-size: 13px; color: #f4a9c8; margin-top: 8px;">
+                ( no pressure at all 🥲 )
+            </p>
+            <button class="yes-big-btn" style="margin-top: 20px;" onclick="sayYes()">
+                Wait — actually YES! 🎉
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== PAGE 5 — CONFIRMED ===== -->
+    <div class="page" id="page5">
+        <div class="top-deco">🎉 💖 🎉</div>
+        <h1>Yayyy!!</h1>
+        <div class="final-card">
+            <div class="divider">✿ ✿ ✿</div>
+            <h2>It's a yes </h2>
+            <p id="confirmDate" class="confirm-date"></p>
+            <p>I knew you'd say yes! This is going to be the best movie night ever 🍿💕</p>
+            <div class="divider">✿ ✿ ✿</div>
+            <p class="footer-note">
+                Can't wait! See you soon —  yours city Neighbour, Aryan 🌸
+            </p>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script>
+        let chosenDate = '';
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+        }
+
+        function pickDate(date) {
+            chosenDate = date;
+            document.getElementById('dateDisplay').textContent = date;
+            showPage('page2');
+        }
+
+async function sayYes() {
+
+    await fetch("https://movie-invetation.onrender.com/response", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            answer: "YES ❤️",
+            date: chosenDate
+        })
+    });
+
+    confetti({
+        particleCount: 250,
+        spread: 120,
+        origin: { y: 0.6 }
+    });
+
+    document.getElementById("confirmDate").textContent = chosenDate;
+
+    setTimeout(() => {
+        showPage("page5");
+    }, 800);
+}
+
+        function oopsNo() {
+            showPage('page3');
+        }
+
+        function reallyNo() {
+            showPage('page4');
+        }
+
+        function runAway() {
+            const btn = document.getElementById('noBtn');
+            const containerWidth = btn.parentElement.offsetWidth;
+            const btnWidth = btn.offsetWidth;
+            const maxX = (containerWidth / 2) - (btnWidth / 2) - 8;
+            const randomX = (Math.random() * maxX * 2) - maxX;
+            const randomY = (Math.random() * 40) - 20;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+        
+    </script>
+
+</body>
+</html>
